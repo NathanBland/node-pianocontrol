@@ -1,0 +1,12 @@
+body {
+}
+header {
+}
+.control-panel {
+}
+.pure-button {
+	transition: .5s all;
+}
+.pure-button:hover {
+	box-shadow: 0px 2px 2px grey;
+}

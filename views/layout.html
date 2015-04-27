@@ -1,0 +1,24 @@
+
+<!doctype html>
+<html>
+
+<head>
+    <title>{{title}}</title>
+    {% block header %}
+    {% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/pure/0.5.0/pure-min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/site.css">
+    {% block stylesheets %}
+    {% endblock %}
+</head>
+
+<body>
+{% block body %}    
+{% endblock %}
+{% block scripts %}
+{% endblock %}
+</body>
+</html>

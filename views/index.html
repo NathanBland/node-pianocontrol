@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<header>
+	<h1>PianoBar Remote</h1>
+</header>
+<main>
+	<article class="control-panel">
+		<button id="button-pause" class="pure-button"><i class="fa fa-pause"></i> Pause</button>
+		<button id="button-play" class="pure-button"><i class="fa fa-play"></i> Play</button>
+		<button id="button-skip" class="pure-button"><i class="fa fa-step-forward"></i> Skip</button>
+		<button id="button-up" class="pure-button"><i class="fa fa-thumbs-up"></i></button>
+		<button id="button-down" class="pure-button"><i class="fa fa-thumbs-down"></i> </button>
+	</article>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="/js/fetch.js"></script>
+<script src="/js/controls.js"></script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{
+  "name": "node-pianocontrol",
+  "version": "1.0.0",
+  "description": "A web interface to control pianobar",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NathanBland/node-pianocontrol.git"
+  },
+  "keywords": [
+    "pianobar",
+    "pandora",
+    "web",
+    "control"
+  ],
+  "author": "Nathan Bland",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NathanBland/node-pianocontrol/issues"
+  },
+  "homepage": "https://github.com/NathanBland/node-pianocontrol",
+  "dependencies": {
+    "body-parser": "^1.12.3",
+    "express": "^4.12.3",
+    "nunjucks": "^1.3.3"
+  }
+}
