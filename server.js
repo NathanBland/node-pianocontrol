@@ -6,19 +6,6 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/');
 var app = express();
 
-//grab output from pianobar
-//Currently SUPER broken
-/*pianobar.stdout.on('data', function(data){
-
-	var line = "" + data;
-	result = line.indexOf('#');
-	console.log("s: "+line+ " :e");
-	if (result < -1){
-		console.log("hit: ",line);
-	} 
-});
-*/
-
 //use nunjucks because awesome.
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
