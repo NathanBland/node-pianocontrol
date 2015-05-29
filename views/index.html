@@ -2,10 +2,11 @@
 
 {% block body %}
 <header>
-	<h1>PianoBar Remote</h1>
+	<h1>PianoBar Remote - {{ip}}</h1>
 </header>
 <main>
 	<article class="control-panel">
+		<button id="button-power" class="pure-button off"><i class="fa fa-power-off"></i> Turn Off</button>
 		<button id="button-pause" class="pure-button"><i class="fa fa-pause"></i> Pause</button>
 		<button id="button-play" class="pure-button"><i class="fa fa-play"></i> Play</button>
 		<button id="button-skip" class="pure-button"><i class="fa fa-step-forward"></i> Skip</button>
@@ -18,4 +19,5 @@
 {% block scripts %}
 <script src="/js/fetch.js"></script>
 <script src="/js/controls.js"></script>
+<script src='/socket.io/socket.io.js'></script>
 {% endblock %}

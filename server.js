@@ -4,7 +4,9 @@ var bodyParser = require('body-parser');
 //var spawn = require('child_process').spawn;
 //var pianobar = spawn('pianoctl');
 var routes = require('./routes/');
-var app = express();
+var app = require('express')();
+var server = require('http').Server(express());
+var io = require('socket.io')(server);
 
 //use nunjucks because awesome.
 app.set('view engine', 'html');
@@ -23,7 +25,10 @@ app.set('ip', process.env.IP || '0.0.0.0');
 app.use(express.static('public')); 
 
 //make user input safe
-app.use(bodyParser.urlencoded({ 
+app.use(bodyParser.json({
+    type: '*/json'
+}));
+app.use(bodyParser.urlencoded({ //parse submitted data using bodyParser
     extended: false
 }));
 
@@ -31,8 +36,10 @@ app.use(bodyParser.urlencoded({
 app.use(routes.setup(app));
 
 //start the server up.
+
+
 var server = app.listen(app.get('port'), app.get('ip'), function(){
 	var addr = server.address();
-	console.log("web control running at http://%s%s",
+	console.log("web control running at http://%s:%s",
 			addr.address, addr.port);
 })

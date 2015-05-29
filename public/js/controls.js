@@ -3,6 +3,8 @@ var pause = document.querySelector("#button-pause");
 var skip = document.querySelector("#button-skip");
 var up = document.querySelector("#button-up");
 var down = document.querySelector("#button-down");
+var power = document.querySelector("#button-power");
+
 play.addEventListener("click", function(ev){
 	
 	ev.preventDefault();
@@ -65,6 +67,28 @@ down.addEventListener("click", function(ev){
 	var result = fetch('/down', {
 		method: 'get',
 		body: {"Command":'down'}
+	});
+	result.then(function(response) {
+        if (response.status === 200) {
+            console.log("submitted successfully");
+        }
+        console.log(response);
+    });
+});
+
+power.addEventListener("click", function(ev){
+	
+	ev.preventDefault();
+	var cmd = '';
+	if (power.className.indexOf("on") != -1){
+		cmd = 'on'
+	} else {
+		cmd = 'off';
+	}
+	var result = fetch('/power', {
+		method: 'post',
+		type: 'json',
+		body: JSON.stringify({"Command":cmd})
 	});
 	result.then(function(response) {
         if (response.status === 200) {
