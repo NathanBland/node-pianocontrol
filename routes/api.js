@@ -1,6 +1,6 @@
 var express = require("express");
 var spawn = require('child_process').spawn;
-var pianobar = spawn('pianoctl');
+var pianobar = '';//spawn('pianoctl');
 var server = require('http').Server(express());
 var io = require('socket.io')(server);
 
@@ -57,17 +57,33 @@ exports.setup = function() {
 			status: 200
 		});
 	});
-	router.post('/power', function(req,res,next){
+	router.get('/power/:action', function(req,res,next){
+		console.log(req.params.action);
+		if (req.params.action == 'off'){
+			pianobar.stdin.write("q\n");
+		} else {
+			pianobar = spawn('pianoctl');
+		}
 		return res.json({
 			status: 200
 		});
 	});
-	
+
 	router.get('/watch', function(req,res,next){
 		//console.log(req.query);
 		params = req.query;
 		console.log('Event! type:', params.type);
-		console.log("song:",params.title,"artist:",params.artist);
+		//console.log('event params:', params);
+		for(var index in params) {
+		   if (params.hasOwnProperty(index)) {
+				//console.log(index.indexOf("station"));
+				if (index.indexOf("station") > -1){
+					var attr = params[index];
+					console.log(index+' is: '+attr);
+				}
+		   }
+		}
+		//console.log("song:",params.title,"artist:",params.artist);
 		if (params.type == 'songlove'){
 			console.log("YOU LOVE THAT SONG GOOD");
 		}

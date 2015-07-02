@@ -6,7 +6,7 @@ var down = document.querySelector("#button-down");
 var power = document.querySelector("#button-power");
 
 play.addEventListener("click", function(ev){
-	
+
 	ev.preventDefault();
 	var result = fetch('/play', {
 		method: 'get',
@@ -20,7 +20,7 @@ play.addEventListener("click", function(ev){
     });
 });
 pause.addEventListener("click", function(ev){
-	
+
 	ev.preventDefault();
 	var result = fetch('/pause', {
 		method: 'get',
@@ -34,7 +34,7 @@ pause.addEventListener("click", function(ev){
     });
 });
 skip.addEventListener("click", function(ev){
-	
+
 	ev.preventDefault();
 	var result = fetch('/skip', {
 		method: 'get',
@@ -48,7 +48,7 @@ skip.addEventListener("click", function(ev){
     });
 });
 up.addEventListener("click", function(ev){
-	
+
 	ev.preventDefault();
 	var result = fetch('/up', {
 		method: 'get',
@@ -62,7 +62,7 @@ up.addEventListener("click", function(ev){
     });
 });
 down.addEventListener("click", function(ev){
-	
+
 	ev.preventDefault();
 	var result = fetch('/down', {
 		method: 'get',
@@ -77,22 +77,29 @@ down.addEventListener("click", function(ev){
 });
 
 power.addEventListener("click", function(ev){
-	
+
 	ev.preventDefault();
-	var cmd = '';
-	if (power.className.indexOf("on") != -1){
-		cmd = 'on'
+	var cmd = {};
+	var action = '';
+	console.log(power.className.indexOf("on"));
+	if (power.className.indexOf("power") < 0){
+		cmd = {action: 'on', button: 'Off'};
+		action = 'power'
 	} else {
-		cmd = 'off';
+		cmd = {action: 'off', button: 'On'};
+
 	}
-	var result = fetch('/power', {
-		method: 'post',
+
+	var result = fetch('/power/'+cmd.action, {
+		method: 'get',
 		type: 'json',
-		body: JSON.stringify({"Command":cmd})
+		body: JSON.stringify({"Command":cmd.action})
 	});
 	result.then(function(response) {
         if (response.status === 200) {
             console.log("submitted successfully");
+						power.className = "pure-button " +action;
+						power.innerHTML = '<i class="fa fa-power-off"></i> Turn '+cmd.button;
         }
         console.log(response);
     });
