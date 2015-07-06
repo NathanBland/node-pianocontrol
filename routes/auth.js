@@ -11,7 +11,7 @@ module.exports = function(){
         var dir = __dirname.split("/");
         dir.pop();
         var conf = dir.join("/")+ "/broadcaster.py";
-        fs.writeFileSync("~/.config/pianobar/config", util.format(config, user.password, user.username, __dirname);
+        fs.writeFileSync("~/.config/pianobar/config", util.format(config, user.password, user.username, conf);
     }
 
     return router;
