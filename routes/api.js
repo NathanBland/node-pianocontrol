@@ -90,7 +90,7 @@ exports.setup = function(app, io) {
 		}*/
 		//console.log("song:",params.title,"artist:",params.artist);
 		if (params.type == 'songlove'){
-			console.log("YOU LOVE THAT SONG GOOD");
+			console.log("Do something with this later.");
 		}
 		//console.log(params);
 		/*for (idx in params){
