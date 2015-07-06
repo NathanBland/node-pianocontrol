@@ -1,0 +1,8 @@
+  {% if data.coverArt != '' %}
+    <img class="pure-img" src="{{data.coverArt}}"/>
+  {% else %}
+    <div class="fill"><i class="fa frown-o"></i></div>
+  {% endif %}
+  <h2>{{data.title}}</h2>
+  <span id='progress'></span>
+  <h4>Artist: {{data.artist}} on {{data.album}}</h4>
