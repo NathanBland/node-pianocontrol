@@ -3,10 +3,36 @@ body {
 header {
 }
 .control-panel {
+	box-shadow: 0px 0px 6px #808080;
+	padding: 1em;
+	margin-bottom: 1em;
 }
 .pure-button {
 	transition: .5s all;
 }
 .pure-button:hover {
 	box-shadow: 0px 2px 2px grey;
+}
+.station-button {
+	border: 0px none transparent;
+	background-color: #E6E6E6;
+	text-decoration: none;
+	border-radius: 2px;
+	transition: .5s all;
+}
+.station-button:hover {
+	box-shadow: 0px 2px 2px grey;
+}
+.song {
+	padding: 1em;
+	box-shadow: 0px 0px 6px #808080;
+}
+.song > img {
+	z-index: -1;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+#progress {
+	width: 100%;
 }

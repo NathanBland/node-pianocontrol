@@ -2,16 +2,20 @@
 
 {% block body %}
 <header>
-	<h1>PianoBar Remote - {{ip}}</h1>
+	<h5>PianoBar Remote - {{ip}}</h5>
 </header>
 <main>
-	<article class="control-panel">
-		<button id="button-power" class="pure-button"><i class="fa fa-power-off"></i> Turn On</button>
-		<button id="button-pause" class="pure-button"><i class="fa fa-pause"></i> Pause</button>
-		<button id="button-play" class="pure-button"><i class="fa fa-play"></i> Play</button>
-		<button id="button-skip" class="pure-button"><i class="fa fa-step-forward"></i> Skip</button>
-		<button id="button-up" class="pure-button"><i class="fa fa-thumbs-up"></i></button>
-		<button id="button-down" class="pure-button"><i class="fa fa-thumbs-down"></i> </button>
+	<article class="pure-g">
+		<section class=" pure-u-1 pure-u-md-1-3">
+
+		</section>
+		<section class="pure-u-1 pure-u-md-1-3">
+			{% include "controls.html" %}
+			<div class="song">
+			</div>
+		</section>
+	</article>
+	<article id="stationList">
 	</article>
 </main>
 {% endblock %}
@@ -19,5 +23,31 @@
 {% block scripts %}
 <script src="/js/fetch.js"></script>
 <script src="/js/controls.js"></script>
+<script src="//mozilla.github.io/nunjucks/files/nunjucks.min.js"></script>
 <script src='/socket.io/socket.io.js'></script>
+<script src="//cdn.rawgit.com/kimmobrunfeldt/progressbar.js/0.5.6/dist/progressbar.js"></script>
+<script>
+	nunjucks.configure('/views', { autoescape: true });
+	var socket = io();
+	socket.on('usergetstations', function(data){
+    //console.log(data);
+		var res = nunjucks.render('stations.html',{data});
+		var container = document.querySelector('#stationList');
+		container.innerHTML = res;
+    //socket.emit('nt', { my: 'data' });
+  });
+	socket.on('songstart', function(data){
+		var res = nunjucks.render('song.html',{data});
+		var container = document.querySelector('.song');
+		container.innerHTML = res;
+		document.querySelector('#progress').innerHTML = '';
+		var line = new ProgressBar.Line('#progress', {
+		    color: '#FCB03C',
+		    strokeWidth: 3,
+		    duration: parseInt(data.duration)*1000
+		});
+		line.animate(1);
+
+	});
+</script>
 {% endblock %}

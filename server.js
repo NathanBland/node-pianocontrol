@@ -2,27 +2,48 @@ var express = require('express');
 var nunjucks = require('nunjucks');
 var bodyParser = require('body-parser');
 //var spawn = require('child_process').spawn;
+var http = require('http');
 //var pianobar = spawn('pianoctl');
-var routes = require('./routes/');
+
+
+
 var app = require('express')();
-var server = require('http').Server(express());
-var io = require('socket.io')(server);
+var io = require('socket.io')();
+app.io = io;
+var routes = require('./routes/');
+
+var users = 0;
+//maybe do socket events here?
+io.on('connection', function(socket) {
+    users += 1;
+    console.log("client connected");
+    socket.broadcast.emit('news', {
+        user: 'connected: ' + users
+    });
+    socket.on('disconnect', function() {
+        users -= 1;
+        console.log("client disconnected");
+        socket.broadcast.emit('news', {
+            user: 'disconnected'
+        });
+    });
+});
 
 //use nunjucks because awesome.
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
-nunjucks.configure('views', { 
+nunjucks.configure('views', {
     autoescape: true,
     express: app,
     watch: true
 });
 
 // basic app config.
-app.set('port', process.env.PORT || 1337); 
+app.set('port', process.env.PORT || 1337);
 app.set('ip', process.env.IP || '0.0.0.0');
 
 //static folder for things like css
-app.use(express.static('public')); 
+app.use(express.static('public'));
 
 //make user input safe
 app.use(bodyParser.json({
@@ -33,13 +54,9 @@ app.use(bodyParser.urlencoded({ //parse submitted data using bodyParser
 }));
 
 //routes
-app.use(routes.setup(app));
+app.use(routes.setup(app, io));
 
 //start the server up.
+var server = http.createServer(app).listen('1337');
 
-
-var server = app.listen(app.get('port'), app.get('ip'), function(){
-	var addr = server.address();
-	console.log("web control running at http://%s:%s",
-			addr.address, addr.port);
-})
+io.attach(server);

@@ -1,26 +1,9 @@
 var express = require("express");
 var spawn = require('child_process').spawn;
 var pianobar = '';//spawn('pianoctl');
-var server = require('http').Server(express());
-var io = require('socket.io')(server);
 
-exports.setup = function() {
-	var users = 0;
-	io.on('connection', function(socket) {
-	    users += 1;
-	    console.log("client connected");
-	    socket.broadcast.emit('news', {
-	        user: 'connected: ' + users
-	    });
-	    socket.on('disconnect', function() {
-	        users -= 1;
-	        console.log("client disconnected");
-	        socket.broadcast.emit('news', {
-	            user: 'disconnected'
-	        });
-	    });
-	});
-    var router = express.Router();
+exports.setup = function(app, io) {
+	var router = express.Router();
 	router.get('/pause', function(req,res,next){
 		pianobar.stdin.write("S\n");
 		return res.json({
@@ -68,13 +51,35 @@ exports.setup = function() {
 			status: 200
 		});
 	});
-
 	router.get('/watch', function(req,res,next){
 		//console.log(req.query);
-		params = req.query;
+		params = req.query; //TODO: rename all this to event.
 		console.log('Event! type:', params.type);
+
+		if (params.type === 'usergetstations') {
+			var stations = {}
+			for(var index in params) {
+		   if (params.hasOwnProperty(index)) {
+				//console.log(index.indexOf("station"));
+				if (index.indexOf("station") > -1){
+					var attr = index.match(/(station)(\d+)/);
+					if (attr != null){
+						stations[attr[2]] = {id:attr[2],name: params[index]};
+					}
+				}
+		   }
+			}
+			io.emit('usergetstations', stations);
+		}
+		if (params.type ==='songstart'){
+
+			var song = {artist: params.artist, album: params.album,
+				 	title: params.title, duration: params.songDuration,
+					rating: params.rating, coverArt: params.coverArt};
+			io.emit('songstart', song);
+		}
 		//console.log('event params:', params);
-		for(var index in params) {
+		/*for(var index in params) {
 		   if (params.hasOwnProperty(index)) {
 				//console.log(index.indexOf("station"));
 				if (index.indexOf("station") > -1){
@@ -82,7 +87,7 @@ exports.setup = function() {
 					console.log(index+' is: '+attr);
 				}
 		   }
-		}
+		}*/
 		//console.log("song:",params.title,"artist:",params.artist);
 		if (params.type == 'songlove'){
 			console.log("YOU LOVE THAT SONG GOOD");
