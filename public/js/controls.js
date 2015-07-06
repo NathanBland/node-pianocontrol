@@ -9,8 +9,7 @@ play.addEventListener("click", function(ev){
 
 	ev.preventDefault();
 	var result = fetch('/play', {
-		method: 'get',
-		body: {"Command":'play'}
+		method: 'get'
 	});
 	result.then(function(response) {
         if (response.status === 200) {
@@ -24,8 +23,7 @@ pause.addEventListener("click", function(ev){
 
 	ev.preventDefault();
 	var result = fetch('/pause', {
-		method: 'get',
-		body: {"Command":'pause'}
+		method: 'get'
 	});
 	result.then(function(response) {
         if (response.status === 200) {
@@ -39,8 +37,7 @@ skip.addEventListener("click", function(ev){
 
 	ev.preventDefault();
 	var result = fetch('/skip', {
-		method: 'get',
-		body: {"Command":'skip'}
+		method: 'get'
 	});
 	result.then(function(response) {
         if (response.status === 200) {
@@ -53,8 +50,7 @@ up.addEventListener("click", function(ev){
 
 	ev.preventDefault();
 	var result = fetch('/up', {
-		method: 'get',
-		body: {"Command":'up'}
+		method: 'get'
 	});
 	result.then(function(response) {
         if (response.status === 200) {
@@ -67,8 +63,7 @@ down.addEventListener("click", function(ev){
 
 	ev.preventDefault();
 	var result = fetch('/down', {
-		method: 'get',
-		body: {"Command":'down'}
+		method: 'get'
 	});
 	result.then(function(response) {
         if (response.status === 200) {
@@ -94,8 +89,7 @@ power.addEventListener("click", function(ev){
 
 	var result = fetch('/power/'+cmd.action, {
 		method: 'get',
-		type: 'json',
-		body: JSON.stringify({"Command":cmd.action})
+		type: 'json'
 	});
 	result.then(function(response) {
         if (response.status === 200) {
