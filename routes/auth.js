@@ -10,6 +10,7 @@ module.exports = function(){
         config += "event_command = %s";
         var dir = __dirname.split("/");
         dir.pop();
+        dir.pop();
         var conf = dir.join("/")+ "/broadcaster.py";
         fs.writeFileSync("~/.config/pianobar/config", util.format(config, user.password, user.username, conf);
     }
