@@ -57,26 +57,26 @@ exports.setup = function(app, io) {
 		console.log('Event! type:', params.type);
 
 		if (params.type === 'usergetstations') {
-			var stations = {}
+			io.stations = {};
 			for(var index in params) {
 		   if (params.hasOwnProperty(index)) {
 				//console.log(index.indexOf("station"));
 				if (index.indexOf("station") > -1){
 					var attr = index.match(/(station)(\d+)/);
 					if (attr != null){
-						stations[attr[2]] = {id:attr[2],name: params[index]};
+						io.stations[attr[2]] = {id:attr[2],name: params[index]};
 					}
 				}
 		   }
 			}
-			io.emit('usergetstations', stations);
+			io.emit('usergetstations', io.stations);
 		}
 		if (params.type ==='songstart'){
 
-			var song = {artist: params.artist, album: params.album,
+			io.song = {artist: params.artist, album: params.album,
 				 	title: params.title, duration: params.songDuration,
 					rating: params.rating, coverArt: params.coverArt};
-			io.emit('songstart', song);
+			io.emit('songstart', io.song);
 		}
 		//console.log('event params:', params);
 		/*for(var index in params) {

@@ -14,12 +14,18 @@ var routes = require('./routes/');
 
 var users = 0;
 //maybe do socket events here?
+io.song = {};
+io.stations = {};
 io.on('connection', function(socket) {
     users += 1;
     console.log("client connected");
     socket.broadcast.emit('news', {
         user: 'connected: ' + users
     });
+    console.log("stations: " + io.stations);
+    console.log("now playing: " + io.song);
+    socket.emit('usergetstations', io.stations);
+    socket.emit('songstart', io.song);
     socket.on('disconnect', function() {
         users -= 1;
         console.log("client disconnected");

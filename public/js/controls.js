@@ -14,7 +14,7 @@ play.addEventListener("click", function(ev){
 	result.then(function(response) {
         if (response.status === 200) {
 					var line = document.querySelector('#progress')
-					line.animate(1);
+					//line.animate(1);
         }
         console.log(response);
     });
@@ -28,7 +28,7 @@ pause.addEventListener("click", function(ev){
 	result.then(function(response) {
         if (response.status === 200) {
 						var line = document.querySelector('#progress')
-						line.stop();
+						//line.stop();
         }
         console.log(response);
     });
