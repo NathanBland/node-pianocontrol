@@ -1,7 +1,4 @@
-<section>
-  <div>
-    {% for item, details in data %}
-    <p class="">{{details.name}}</p>
-    {% endfor %}
-  </div>
-</section>
+{% set cls = cycler("odd", "even") %}
+{% for item, details in data %}
+<a href="/station/{{details.id}}"><li class="{{cls.next()}}">{{details.name}}</li></a>
+{% endfor %}

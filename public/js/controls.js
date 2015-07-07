@@ -4,6 +4,8 @@ var skip = document.querySelector("#button-skip");
 var up = document.querySelector("#button-up");
 var down = document.querySelector("#button-down");
 var power = document.querySelector("#button-power");
+var details = document.querySelector("#button-details");
+var stations = document.querySelector("#button-stations");
 
 play.addEventListener("click", function(ev){
 
@@ -99,4 +101,19 @@ power.addEventListener("click", function(ev){
         }
         console.log(response);
     });
+});
+function toggle_visibility(id) {
+   var e = document.getElementById(id);
+   if(e.style.display == 'none')
+      e.style.display = 'block';
+   else
+      e.style.display = 'none';
+}
+details.addEventListener("click", function(ev){
+	ev.preventDefault();
+	toggle_visibility('control-details');
+});
+stations.addEventListener("click", function(ev){
+	ev.preventDefault();
+	toggle_visibility('station-list');
 });

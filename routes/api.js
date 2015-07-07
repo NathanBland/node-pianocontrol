@@ -1,6 +1,7 @@
 var express = require("express");
 var spawn = require('child_process').spawn;
 var pianobar = '';//spawn('pianoctl');
+var time = require('time');
 
 exports.setup = function(app, io) {
 	var router = express.Router();
@@ -9,6 +10,18 @@ exports.setup = function(app, io) {
 		return res.json({
 			status: 200
 		});
+	});
+	router.get('/station/:id', function(req,res,next){
+		if (!req.params.id) {
+			return res.json({
+				status: 500
+			});
+		}
+		console.log(req.params.id);
+		io.currentStation = io.stations[req.params.id];
+		pianobar.stdin.write("s"+parseInt(req.params.id)+"\n"); //may not need new line char.
+		return res.redirect('/');
+
 	});
 	router.get('/play', function(req,res,next){
 		pianobar.stdin.write("P\n");
@@ -43,7 +56,9 @@ exports.setup = function(app, io) {
 	router.get('/power/:action', function(req,res,next){
 		console.log(req.params.action);
 		if (req.params.action == 'off'){
-			pianobar.stdin.write("q\n");
+			if (pianobar) {
+				pianobar.stdin.write("q\n");
+			}
 		} else {
 			pianobar = spawn('pianoctl');
 		}
@@ -69,13 +84,19 @@ exports.setup = function(app, io) {
 				}
 		   }
 			}
+			console.log(io.stations);
 			io.emit('usergetstations', io.stations);
+		}
+		if (params.type === 'stationfetchplaylist') {
+			io.currentStation = {name: params.stationName};
+			io.emit('stationchange', io.currentStation);
 		}
 		if (params.type ==='songstart'){
 
 			io.song = {artist: params.artist, album: params.album,
 				 	title: params.title, duration: params.songDuration,
-					rating: params.rating, coverArt: params.coverArt};
+					rating: params.rating, coverArt: params.coverArt,
+					startTime: time.time(), currentTime: time.time()};
 			io.emit('songstart', io.song);
 		}
 		//console.log('event params:', params);

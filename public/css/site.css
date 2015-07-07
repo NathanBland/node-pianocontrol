@@ -6,6 +6,14 @@ header {
 	box-shadow: 0px 0px 6px #808080;
 	padding: 1em;
 	margin-bottom: 1em;
+	margin-top: 1rem;
+}
+.control-panel > span {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	min-width: 33%;
+	max-width: 60%;
 }
 .pure-button {
 	transition: .5s all;
@@ -29,10 +37,61 @@ header {
 }
 .song > img {
 	z-index: -1;
-	width: 100%;
+	width: 75%;
 	margin-left: auto;
 	margin-right: auto;
 }
 #progress {
 	width: 100%;
+}
+.stations {
+	box-shadow: 0px 0px 6px #808080;
+	padding: 1em;
+	margin: 1rem;
+
+}
+#stationList {
+	position: relative;
+}
+#stationList > ul {
+	max-height: 85vh;
+	overflow-y: auto;
+	list-style: none;
+	margin-right: 1rem;
+	margin-left: 1rem;
+	padding-left: .5rem;
+	box-shadow: 0px 0px 6px #808080;
+}
+#stationList > ul > a {
+	text-decoration: none;
+}
+#stationList > ul > a > li {
+	font-family: inherit;
+	font-size: 100%;
+	padding: 0.5em 1em;
+	color: rgba(0, 0, 0, 0.8);
+	border: 0px none transparent;
+	text-decoration: none;
+	border-radius: 2px;
+	margin-top: .5rem;
+	transition: .5s all;
+	margin-right: 1rem;
+}
+#stationList > ul > a > li:hover {
+	box-shadow: 0px 2px 2px grey;
+}
+.even {
+	background-color: #F2F2F2;
+}
+.odd {
+	background-color: #F2F2F2;
+}
+.details-container {
+	box-shadow: 0px 0px 6px #808080;
+	padding: 1em;
+	margin: 1rem;
+}
+.blue {
+	background-color: #2D96EF;
+	color: white;
 }

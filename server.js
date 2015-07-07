@@ -3,7 +3,7 @@ var nunjucks = require('nunjucks');
 var bodyParser = require('body-parser');
 //var spawn = require('child_process').spawn;
 var http = require('http');
-//var pianobar = spawn('pianoctl');
+var time = require('time');
 
 
 
@@ -16,16 +16,17 @@ var users = 0;
 //maybe do socket events here?
 io.song = {};
 io.stations = {};
+io.currentStation = {};
 io.on('connection', function(socket) {
     users += 1;
     console.log("client connected");
     socket.broadcast.emit('news', {
         user: 'connected: ' + users
     });
-    console.log("stations: " + io.stations);
-    console.log("now playing: " + io.song);
+    io.song.currentTime = time.time();
     socket.emit('usergetstations', io.stations);
     socket.emit('songstart', io.song);
+    socket.emit('stationchange', io.currentStation);
     socket.on('disconnect', function() {
         users -= 1;
         console.log("client disconnected");
