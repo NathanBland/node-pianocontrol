@@ -83,7 +83,9 @@ exports.setup = function(app, io) {
 				pianobar.stdin.write("q\n");
 			}
 		} else {
-			pianobar = spawn('pianoctl');
+			if (!pianobar){
+				pianobar = spawn('pianobar');
+			}
 		}
 		return res.json({
 			status: 200
