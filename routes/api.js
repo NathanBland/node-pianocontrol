@@ -1,7 +1,9 @@
 var express = require("express");
 var spawn = require('child_process').spawn;
 var pianobar = '';//spawn('pianoctl');
+var config = require("../config");
 var time = require('time');
+var YouTube = require('youtube-node');
 
 exports.setup = function(app, io) {
 	var router = express.Router();
@@ -51,6 +53,27 @@ exports.setup = function(app, io) {
 		pianobar.stdin.write("t\n");
 		return res.json({
 			status: 200
+		});
+	});
+	router.get('/youtube/:name',function(req,res,next){
+		var youTube = new YouTube();
+		youTube.setKey(config.youtube);
+		youTube.search(req.params.name, 1, function(err, result){
+			if (err){
+				console.warn(err);
+				return res.json({
+					status: 500
+				});
+			}
+			else {
+				var vidLink = 'https://youtube.com/watch?v='+result.items[0].id.videoId;
+				return res.json({
+					status: 200,
+					data: result,
+					link: vidLink,
+					title: result.items[0].snippet.title
+				});
+			}
 		});
 	});
 	router.get('/power/:action', function(req,res,next){

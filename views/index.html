@@ -16,14 +16,14 @@
 		</section>
 		<section class="pure-u-1 pure-u-md-1-3">
 			{% include "controls.html" %}
-			<div class="song">
-			</div>
+			<div id="songs" class=""></div>
 		</section>
 		<section class="pure-u-1 pure-u-md-1-3">
 			<div class="details-container">
 				<button id="button-details" class="pure-button"><i class="fa fa-gears"></i> Details</button>
 			  <p id="control-details">PianoBar Remote - {{ip}}</p>
-			<div>
+			</div>
+			<div id="songHistory"></div>
 		</section>
 	</article>
 </main>
@@ -35,33 +35,5 @@
 <script src="//mozilla.github.io/nunjucks/files/nunjucks.min.js"></script>
 <script src='/socket.io/socket.io.js'></script>
 <script src="//cdn.rawgit.com/kimmobrunfeldt/progressbar.js/0.5.6/dist/progressbar.js"></script>
-<script>
-	nunjucks.configure('/views', { autoescape: true });
-	var socket = io();
-	socket.on('usergetstations', function(data){
-    //console.log(data);
-		var res = nunjucks.render('stations.html',{data});
-		var container = document.querySelector('#station-list');
-		container.innerHTML = res;
-    //socket.emit('nt', { my: 'data' });
-  });
-	socket.on('songstart', function(data){
-		var res = nunjucks.render('song.html',{data});
-		var container = document.querySelector('.song');
-		container.innerHTML = res;
-		document.querySelector('#progress').innerHTML = '';
-		var line = new ProgressBar.Line('#progress', {
-		    color: '#FCB03C',
-		    strokeWidth: 3,
-		    duration: parseInt(data.duration)*1000
-		});
-		line.set((data.currentTime-data.startTime)/parseInt(data.duration));
-		line.animate(1);
-
-	});
-	socket.on('stationchange', function(data){
-		var container = document.querySelector('#now');
-		container.innerHTML = data.name;
-	});
-</script>
+<script src="/js/sockets.js"></script>
 {% endblock %}
