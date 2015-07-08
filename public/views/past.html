@@ -1,0 +1,9 @@
+
+  {% if data.song.coverArt != '' %}
+    <img class="pure-img" src="{{data.coverArt}}"/>
+  {% else %}
+    <div class="fill"><i class="fa frown-o"></i> No cover art.</div>
+  {% endif %}
+  <h3>{{data.song.title}}</h3>
+  <a href="{{data.link}}" title="{{data.title}}">YouTube</a>
+  <h4>Artist: {{data.song.artist}} on {{data.song.album}}</h4>

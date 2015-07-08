@@ -20,7 +20,7 @@ It should also be said that you need to have your username and password already
 configured in this file.
 
 To set the broadcast.py to function, append
-`event_command = /path/to/project/broadcast.py' to your config file.
+`event_command = /path/to/project/broadcast.py` to your config file.
 
 After this is done, all you need to do is run `node server.js` and point your
 browser to 'localhost:1337'  to use it.

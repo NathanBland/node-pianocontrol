@@ -55,27 +55,6 @@ exports.setup = function(app, io) {
 			status: 200
 		});
 	});
-	router.get('/youtube/:name',function(req,res,next){
-		var youTube = new YouTube();
-		youTube.setKey(config.youtube);
-		youTube.search(req.params.name, 1, function(err, result){
-			if (err){
-				console.warn(err);
-				return res.json({
-					status: 500
-				});
-			}
-			else {
-				var vidLink = 'https://youtube.com/watch?v='+result.items[0].id.videoId;
-				return res.json({
-					"status": 200,
-					"data": result,
-					"link": vidLink,
-					"title": result.items[0].snippet.title
-				});
-			}
-		});
-	});
 	router.get('/power/:action', function(req,res,next){
 		console.log(req.params.action);
 		if (req.params.action == 'off'){
@@ -84,16 +63,35 @@ exports.setup = function(app, io) {
 				pianobar = ''
 			}
 		} else {
-			if (!pianobar){
-				pianobar = spawn('pianobar');
-			}
+				pianobar = spawn('pianoctl');
+				io.emit('usergetstations', io.stations);
 		}
 		return res.json({
 			status: 200
 		});
 	});
+	function getYouTube(song){
+		var youTube = new YouTube();
+		youTube.setKey(config.youtube);
+		youTube.search(song.title, 1, function(err, result){
+			if (err){
+				console.warn(err);
+				return res.json({
+					status: 500
+				});
+			}
+			else {
+				var vidLink = 'https://youtube.com/watch?v='+result.items[0].id.videoId;
+				return io.emit('songend',{
+					"status": 200,
+					"song": song,
+					"link": vidLink,
+					"title": result.items[0].snippet.title
+				});
+			}
+		});
+	}
 	router.get('/watch', function(req,res,next){
-		//console.log(req.query);
 		params = req.query; //TODO: rename all this to event.
 		console.log('Event! type:', params.type);
 
@@ -117,6 +115,18 @@ exports.setup = function(app, io) {
 			io.currentStation = {name: params.stationName};
 			io.emit('stationchange', io.currentStation);
 		}
+		if (params.type === 'songfinish') {
+			var song = {artist: params.artist, album: params.album,
+				 	title: params.title, duration: params.songDuration,
+					rating: params.rating, coverArt: params.coverArt,
+					endTime: time.time()};
+			if (!io.songs) {
+				io.songs = [song];
+			} else {
+				io.songs.push(song);
+			}
+			return getYouTube(song);
+		}
 		if (params.type ==='songstart'){
 
 			io.song = {artist: params.artist, album: params.album,
@@ -125,28 +135,9 @@ exports.setup = function(app, io) {
 					startTime: time.time(), currentTime: time.time()};
 			io.emit('songstart', io.song);
 		}
-		//console.log('event params:', params);
-		/*for(var index in params) {
-		   if (params.hasOwnProperty(index)) {
-				//console.log(index.indexOf("station"));
-				if (index.indexOf("station") > -1){
-					var attr = params[index];
-					console.log(index+' is: '+attr);
-				}
-		   }
-		}*/
-		//console.log("song:",params.title,"artist:",params.artist);
 		if (params.type == 'songlove'){
 			console.log("Do something with this later.");
 		}
-		//console.log(params);
-		/*for (idx in params){
-			//console.log(idx,":",params[idx]);
-			if (idx.toString().indexOf("station") > -1){
-				//console.log(params[idx]);
-				stationList[idx] = params[idx];
-			}
-		}*/
 		return res.json({
 			status: 200
 		});
