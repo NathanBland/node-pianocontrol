@@ -19,19 +19,24 @@ socket.on('songstart', function(data){
 
     old.removeChild(oldProgress); //really need to offload this to a function
     var oldTitle = old.querySelector('h2');
-    var result = fetch('/youtube/'+oldTitle.innerHTML, {
+    fetch('/youtube/'+oldTitle.innerHTML, {
   		method: 'get'
-  	});
-    result.then(function(response) {
+  	}).then(function(response) {
           if (response.status === 200) {
-              console.log("submitted successfully");
-              console.log(response);
-              console.log('end');
+            return  response;
+          } else {
+            var err = new Error(response.statusText);
+            error.response = response;
+            throw error;
           }
-          oldTitle.innerHTML = '<a href="'+response.link+'">'+response.title+'</a>';
-
-          songHistory.insertBefore(old, history.firstChild);
+    }).then(function(response){
+      return response.json();
+    }).then(function(data){
+      console.log(data);
+      oldTitle.innerHTML = '<a class="pure-button" href="'+data.link+'">'+data.title+'</a>';
+      songHistory.insertBefore(old, history.firstChild);
     });
+
   }
   container.innerHTML = res;
   var lineId = data.startTime.toString();

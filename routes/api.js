@@ -68,10 +68,10 @@ exports.setup = function(app, io) {
 			else {
 				var vidLink = 'https://youtube.com/watch?v='+result.items[0].id.videoId;
 				return res.json({
-					status: 200,
-					data: result,
-					link: vidLink,
-					title: result.items[0].snippet.title
+					"status": 200,
+					"data": result,
+					"link": vidLink,
+					"title": result.items[0].snippet.title
 				});
 			}
 		});
@@ -80,7 +80,8 @@ exports.setup = function(app, io) {
 		console.log(req.params.action);
 		if (req.params.action == 'off'){
 			if (pianobar) {
-				pianobar.stdin.write("q\n");
+				pianobar.stdin.write("q");
+				pianobar = ''
 			}
 		} else {
 			if (!pianobar){
