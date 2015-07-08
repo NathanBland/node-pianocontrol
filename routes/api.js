@@ -73,7 +73,7 @@ exports.setup = function(app, io) {
 	function getYouTube(song){
 		var youTube = new YouTube();
 		youTube.setKey(config.youtube);
-		youTube.search(song.title, 1, function(err, result){
+		youTube.search(song.artist+' - '+song.title, 1, function(err, result){
 			if (err){
 				console.warn(err);
 				return res.json({
@@ -81,13 +81,20 @@ exports.setup = function(app, io) {
 				});
 			}
 			else {
+				console.log('sending old data');
 				var vidLink = 'https://youtube.com/watch?v='+result.items[0].id.videoId;
-				return io.emit('songend',{
+				songItem = {
 					"status": 200,
 					"song": song,
 					"link": vidLink,
 					"title": result.items[0].snippet.title
-				});
+				};
+				if (!io.songs) {
+					io.songs = [songItem];
+				} else {
+					io.songs.push(songItem);
+				}
+				io.emit('songfinish',songItem);
 			}
 		});
 	}
@@ -120,12 +127,7 @@ exports.setup = function(app, io) {
 				 	title: params.title, duration: params.songDuration,
 					rating: params.rating, coverArt: params.coverArt,
 					endTime: time.time()};
-			if (!io.songs) {
-				io.songs = [song];
-			} else {
-				io.songs.push(song);
-			}
-			return getYouTube(song);
+			getYouTube(song);
 		}
 		if (params.type ==='songstart'){
 

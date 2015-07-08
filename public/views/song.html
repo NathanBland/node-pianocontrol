@@ -1,8 +1,8 @@
-<div  class="song">
+<div  class="song blue">
   {% if data.coverArt != '' %}
-    <img class="pure-img" src="{{data.coverArt}}"/>
+    <img class="pure-img dark-shadow" src="{{data.coverArt}}"/>
   {% else %}
-    <div class="fill"><i class="fa frown-o"></i></div>
+    <div class="fill"><i class="fa fa-frown-o"></i>No cover art</div>
   {% endif %}
   <h2>{{data.title}}</h2>
   <span id="a{{data.startTime | string}}" class="progress"></span>

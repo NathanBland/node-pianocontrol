@@ -23,11 +23,26 @@ socket.on('songstart', function(data){
 });
 socket.on('songfinish', function(data){
   var songHistory = document.querySelector('#songHistory');
+  console.log('got old data', data);
   var res = nunjucks.render('past.html', {data});
-  var item = document.createTextNode(res);
+  console.log(res);
+  var item = document.createElement('div');
+  item.className = 'song-old';
+  item.innerHTML = res;
   songHistory.insertBefore(item, songHistory.firstChild);
 })
 socket.on('stationchange', function(data){
   var container = document.querySelector('#now');
   container.innerHTML = data.name;
+});
+socket.on('songhistory', function(data){
+  var songHistory = document.querySelector('#songHistory');
+  var history = data.reverse();
+  console.log(data);
+  var res = nunjucks.render('history.html', {history});
+  console.log(res);
+  var item = document.createElement('div');
+  item.className = 'song-old';
+  item.innerHTML = res;
+  songHistory.insertBefore(item, songHistory.firstChild);
 });

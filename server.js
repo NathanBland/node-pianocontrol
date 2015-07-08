@@ -27,6 +27,7 @@ io.on('connection', function(socket) {
     socket.emit('usergetstations', io.stations);
     socket.emit('songstart', io.song);
     socket.emit('stationchange', io.currentStation);
+    socket.emit('songhistory', io.songs);
     socket.on('disconnect', function() {
         users -= 1;
         console.log("client disconnected");
