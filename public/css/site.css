@@ -104,15 +104,36 @@ header {
 }
 .song-old {
 	margin: 1rem;
-	padding: 1em;
+	position: relative;
 	box-shadow: 0px 0px 6px #808080;
 }
-.song-old > img {
-	width: 25%;
+.song-old > .pure-img {
+	width: 19%;
+	float:left;
+}
+.song-old > .pure-img > i {
+	font-size: 6rem;
+	padding-left: 0.5rem;
+}
+.song-old > h3 {
+	padding-left: 1rem;
+	display: inline-block;
+	vertical-align: center;
+}
+.song-old > h4 {
+	display: inline-block;
 }
 .shadow {
 	box-shadow: 0px 0px 6px #808080;
 }
 .dark-shadow {
 	box-shadow: 0px 0px 6px #000;
+}
+.youtube {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+.fill {
+	text-align: center;
 }

@@ -6,6 +6,16 @@ var down = document.querySelector("#button-down");
 var power = document.querySelector("#button-power");
 var details = document.querySelector("#button-details");
 var stations = document.querySelector("#button-stations");
+var getList = document.querySelector("#button-getList");
+var btnHistory = document.querySelector("#button-history");
+
+function toggle_visibility(id) {
+   var e = document.getElementById(id);
+   if(e.style.display == 'none')
+      e.style.display = 'block';
+   else
+      e.style.display = 'none';
+}
 
 play.addEventListener("click", function(ev){
 
@@ -102,13 +112,23 @@ power.addEventListener("click", function(ev){
         console.log(response);
     });
 });
-function toggle_visibility(id) {
-   var e = document.getElementById(id);
-   if(e.style.display == 'none')
-      e.style.display = 'block';
-   else
-      e.style.display = 'none';
-}
+getList.addEventListener("click", function(ev){
+	ev.preventDefault();
+	var oldClass = getList.firstChild.className;
+	getList.firstChild.className += ' fa-spin';
+	var result = fetch('/getStations/', {
+		method: 'get',
+		type: 'json'
+	});
+	result.then(function(response) {
+        if (response.status === 200) {
+        	setTimeout(function(){
+        		getList.firstChild.className = oldClass;
+        	}, 2000);
+        }
+    });
+});
+
 details.addEventListener("click", function(ev){
 	ev.preventDefault();
 	toggle_visibility('control-details');
@@ -116,4 +136,8 @@ details.addEventListener("click", function(ev){
 stations.addEventListener("click", function(ev){
 	ev.preventDefault();
 	toggle_visibility('station-list');
+});
+btnHistory.addEventListener("click", function(ev){
+	ev.preventDefault();
+	toggle_visibility('songHistory');
 });

@@ -8,9 +8,11 @@
 	<article class="pure-g">
 		<section id="stationList" class="pure-u-1 pure-u-md-1-3">
 			<div class="stations">
-		    <button id="button-stations" class="pure-button"><i class="fa fa-music"></i> Station List</button>
-				<buton id="now" class="pure-button blue"></button>
-		  </div>
+				<button id="button-getList" class="pure-button blue"><i class="fa fa-refresh"></i></button>
+		    	<button id="button-stations" class="pure-button"><i class="fa fa-music"></i> Station List</button>
+				<button id="now" class="pure-button blue"></button>
+
+			</div>
 			<ul id="station-list">
 			</ul>
 		</section>
@@ -21,6 +23,7 @@
 		<section class="pure-u-1 pure-u-md-1-3">
 			<div class="details-container">
 				<button id="button-details" class="pure-button"><i class="fa fa-gears"></i> Details</button>
+				<button id="button-history" class="pure-button"><i class="fa fa-history"></i> History</button>
 			  <p id="control-details">PianoBar Remote - {{ip}}</p>
 			</div>
 			<div id="songHistory"></div>

@@ -1,8 +1,8 @@
   {% if data.song.coverArt != '' %}
-    <img class="pure-img" src="{{data.song.coverArt}}"/>
+    <img class="pure-img dark-shadow" src="{{data.song.coverArt}}"/>
   {% else %}
-    <div class="fill"><i class="fa fa-frown-o"></i> No cover art.</div>
+    <div class="pure-img"><i class="fa fa-frown-o"></i></div>
   {% endif %}
   <h3>{{data.song.title}}</h3>
-  <a href="{{data.link}}" target="_blank" title="{{data.title}}"><button class="pure-button red"><i class="fa fa-youtube"></i> YouTube</button></a>
-  <h4>Artist: {{data.song.artist}} on {{data.song.album}}</h4>
+  <a href="{{data.link}}" class="youtube" target="_blank" title="{{data.title}}"><button class="pure-button red"><i class="fa fa-youtube"></i> YouTube</button></a>
+  <p><small>Artist: {{data.song.artist | truncate(15)}} on {{data.song.album}}</small></p>

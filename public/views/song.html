@@ -2,7 +2,7 @@
   {% if data.coverArt != '' %}
     <img class="pure-img dark-shadow" src="{{data.coverArt}}"/>
   {% else %}
-    <div class="fill"><i class="fa fa-frown-o"></i>No cover art</div>
+    <div class="fill"><i class="fa fa-frown-o fa-5x"></i> <h3>No cover art</h3></div>
   {% endif %}
   <h2>{{data.title}}</h2>
   <span id="a{{data.startTime | string}}" class="progress"></span>

@@ -3,9 +3,8 @@ var nunjucks = require('nunjucks');
 var bodyParser = require('body-parser');
 //var spawn = require('child_process').spawn;
 var http = require('http');
+var config = require('./config')
 var time = require('time');
-
-
 
 var app = require('express')();
 var io = require('socket.io')();
@@ -27,7 +26,9 @@ io.on('connection', function(socket) {
     socket.emit('usergetstations', io.stations);
     socket.emit('songstart', io.song);
     socket.emit('stationchange', io.currentStation);
-    socket.emit('songhistory', io.songs);
+    if (io.songs){
+        socket.emit('songhistory', io.songs);
+    }
     socket.on('disconnect', function() {
         users -= 1;
         console.log("client disconnected");
@@ -47,8 +48,8 @@ nunjucks.configure('views', {
 });
 
 // basic app config.
-app.set('port', process.env.PORT || 1337);
-app.set('ip', process.env.IP || '0.0.0.0');
+app.set('port', config.PORT || 1337);
+app.set('ip', config.IP || '0.0.0.0');
 
 //static folder for things like css
 app.use(express.static('public'));
@@ -65,6 +66,6 @@ app.use(bodyParser.urlencoded({ //parse submitted data using bodyParser
 app.use(routes.setup(app, io));
 
 //start the server up.
-var server = http.createServer(app).listen('1337');
+var server = http.createServer(app).listen(config.PORT);
 
 io.attach(server);

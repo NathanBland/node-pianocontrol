@@ -24,3 +24,12 @@ To set the broadcast.py to function, append
 
 After this is done, all you need to do is run `node server.js` and point your
 browser to 'localhost:1337'  to use it.
+
+### Notes
+
+This is tested on Arch Linux, with pianobar installed from pacman. 
+Your milage may vary. 
+
+If it isn't working for you, complaining about not being able to write,
+try changing `pianoctl` to `pianobar` in the config.js file. You can 
+also change the default port and IP address there as well.

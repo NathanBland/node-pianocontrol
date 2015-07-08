@@ -42,7 +42,7 @@ socket.on('songhistory', function(data){
   var res = nunjucks.render('history.html', {history});
   console.log(res);
   var item = document.createElement('div');
-  item.className = 'song-old';
+  item.className = 'song-list-old';
   item.innerHTML = res;
   songHistory.insertBefore(item, songHistory.firstChild);
 });

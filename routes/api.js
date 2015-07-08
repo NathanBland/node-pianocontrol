@@ -55,6 +55,12 @@ exports.setup = function(app, io) {
 			status: 200
 		});
 	});
+	router.get('/getStations', function(req,res,next){
+		io.emit('usergetstations', io.stations);
+		return res.json({
+			status: 200
+		});
+	});
 	router.get('/power/:action', function(req,res,next){
 		console.log(req.params.action);
 		if (req.params.action == 'off'){
@@ -63,7 +69,9 @@ exports.setup = function(app, io) {
 				pianobar = ''
 			}
 		} else {
-				pianobar = spawn('pianoctl');
+			if (pianobar == '' || !pianobar){
+				pianobar = spawn(config.process);
+			}
 				io.emit('usergetstations', io.stations);
 		}
 		return res.json({
