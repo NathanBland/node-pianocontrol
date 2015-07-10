@@ -15,6 +15,9 @@ data = urllib.urlencode(params)
 url = 'http://localhost:1337/watch'
 full_url = url + '?' + data
 #print (full_url)
-data = urllib2.urlopen(full_url)
+try:
+	data = urllib2.urlopen(full_url)
+except:
+	pass
 #print data
 print("params sent")
